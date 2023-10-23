@@ -1,5 +1,4 @@
 ﻿
-
 using WinForm.Desktop.Respository.Interfaces;
 using WinForm.Desktop.Services.Interfaces;
 using WinFormsApp1.Entites;

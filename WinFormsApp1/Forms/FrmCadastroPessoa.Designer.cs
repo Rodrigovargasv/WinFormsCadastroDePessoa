@@ -82,7 +82,7 @@
             dateTimePicker1.Name = "dateTimePicker1";
             dateTimePicker1.Size = new Size(285, 23);
             dateTimePicker1.TabIndex = 13;
-            dateTimePicker1.Value = new DateTime(1950, 1, 1, 0, 0, 0, 0);
+            dateTimePicker1.Value = new DateTime(2023, 10, 23, 0, 0, 0, 0);
             dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
             // 
             // label4
@@ -152,13 +152,13 @@
             // 
             pessoaBindingSource.DataSource = typeof(Entites.Pessoa);
             // 
-            // Form2
+            // FrmCadastroPessoa
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(562, 405);
             Controls.Add(panel1);
-            Name = "Form2";
+            Name = "FrmCadastroPessoa";
             Text = "Form2";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

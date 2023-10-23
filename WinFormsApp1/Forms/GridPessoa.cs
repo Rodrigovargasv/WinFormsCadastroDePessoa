@@ -1,6 +1,7 @@
 
 using System.Data;
-using System.Windows.Forms;
+
+
 using WinForm.Desktop.Forms;
 using WinForm.Desktop.Services;
 using WinForm.Desktop.Services.Interfaces;
@@ -16,12 +17,9 @@ namespace WinFormsApp1
         private readonly IErroProvider _erroProvider;
 
 
+        Pessoa pessoa;
 
-        private Pessoa pessoa;
-        public GridPessoa()
-        {
-
-        }
+      
 
         public GridPessoa(IPessoaService pessoaService, IErroProvider erroProvider)
         {
@@ -141,7 +139,7 @@ namespace WinFormsApp1
 
         private async Task CarregarDadosFormulario()
         {
-            var pessoaTask = _pessoaService.GetAllPessoasAsync();
+           var pessoaTask = _pessoaService.GetAllPessoasAsync();
 
             var pessoas = await pessoaTask;
 

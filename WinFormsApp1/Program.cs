@@ -1,4 +1,5 @@
 using Autofac;
+using WinForm.Desktop.Services;
 using WinFormsApp1.IoC;
 
 namespace WinFormsApp1
@@ -21,9 +22,13 @@ namespace WinFormsApp1
 
             var container = DependencyInjectionConfig.Configure();
 
+
+            
             using (var scope = container.BeginLifetimeScope())
             {
                 var mainForm = scope.Resolve<GridPessoa>();
+               
+
                 Application.Run(mainForm);
             }
 

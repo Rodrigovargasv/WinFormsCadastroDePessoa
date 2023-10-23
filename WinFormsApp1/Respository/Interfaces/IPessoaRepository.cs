@@ -1,4 +1,5 @@
-﻿using WinFormsApp1.Entites;
+﻿
+using WinFormsApp1.Entites;
 
 namespace WinForm.Desktop.Respository.Interfaces
 {

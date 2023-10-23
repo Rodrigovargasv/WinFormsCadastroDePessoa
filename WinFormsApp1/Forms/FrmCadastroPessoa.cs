@@ -1,4 +1,5 @@
-﻿using WinForm.Desktop.Services.Interfaces;
+﻿using System.Windows.Forms;
+using WinForm.Desktop.Services.Interfaces;
 using WinFormsApp1.Entites;
 
 
@@ -33,13 +34,15 @@ namespace WinFormsApp1
                 pessoa.Nome = textBox1.Text.Trim();
 
                 if (string.IsNullOrEmpty(pessoa.Nome) || string.IsNullOrWhiteSpace(pessoa.Nome))
-                {
-                    ValidadationForms();
-                }
+                    _erroProvider.ErroProvider(textBox1, "Este campo é obrigatório");
+
+                if (textBox1.Text.Length < 3)
+                    _erroProvider.ErroProvider(textBox1, "Campo deve conter no mínimo 3 caracteres");
+
+
                 else
-                {
                     _erroProvider.ClearError(textBox1);
-                }
+
 
             }
             catch
@@ -57,10 +60,11 @@ namespace WinFormsApp1
             {
 
                 if (string.IsNullOrEmpty(textBox2.Text) && string.IsNullOrWhiteSpace(textBox2.Text))
-                {
+                    _erroProvider.ErroProvider(textBox2, "Este campo é obrigatório");
 
-                    _erroProvider.ErroProvider(textBox2, "Campo é de preechimento Obrigatorio");
-                }
+                if (textBox2.Text.Length < 3)
+                    _erroProvider.ErroProvider(textBox2, "Campo deve conter no mínimo 3 caracteres");
+
 
                 else
                 {
@@ -78,28 +82,39 @@ namespace WinFormsApp1
 
         }
 
-
-
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
-            pessoa.Data_Nascimento = dateTimePicker1.Value;
+            if (dateTimePicker1.Value >= DateTime.Now)
+                _erroProvider.ErroProvider(dateTimePicker1, "Data não pode ser igual a data atual");
+        
+
+            if (dateTimePicker1.Value >= DateTime.Now.AddYears(-18))
+                _erroProvider.ErroProvider(dateTimePicker1, "O Usuário deve ter no mínino 18 anos");
+            if (string.IsNullOrEmpty(dateTimePicker1.Value.ToString()))
+                _erroProvider.ErroProvider(dateTimePicker1, "Este campo é obrigatório");
+            else
+            {
+                _erroProvider.ClearError(dateTimePicker1);
+                pessoa.Data_Nascimento = dateTimePicker1.Value;
+            }
+
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
             if (comboBox1.SelectedItem.ToString() == "Feminino")
-            {
                 pessoa.Sexo = "f";
-            }
+
             if (comboBox1.SelectedItem.ToString() == "Masculino")
-            {
                 pessoa.Sexo = "m";
-            }
-            else
-            {
+
+            if (string.IsNullOrEmpty(comboBox1.Text))
                 _erroProvider.ErroProvider(comboBox1, "Este campo é obrigatório");
-            }
+
+            else
+                _erroProvider.ClearError(comboBox1);
+
 
         }
 
@@ -113,21 +128,17 @@ namespace WinFormsApp1
                 {
 
 
-                    if (ValidadationForms() == true)
-                    {
-
+                    if (ValidadationForms() is true)
                         return;
-                    }
-                    else
-                    {
 
-                        Thread.Sleep(1000);
 
-                        _pessoaService.CreatePessoaAsync(pessoa);
+                    Thread.Sleep(1000);
 
-                        this.Hide();
+                    _pessoaService.CreatePessoaAsync(pessoa);
 
-                    }
+                    this.Hide();
+
+
 
                 }
                 catch
@@ -149,30 +160,23 @@ namespace WinFormsApp1
         public bool ValidadationForms()
         {
 
-            var date = DateTime.Now.ToString("yyyy/MM/dd");
 
-            if (!string.IsNullOrEmpty(textBox1.Text) && !string.IsNullOrWhiteSpace(textBox1.Text) &&
-                !string.IsNullOrEmpty(textBox2.Text) && !string.IsNullOrWhiteSpace(textBox2.Text) &&
-                !string.IsNullOrEmpty(comboBox1.Text) && dateTimePicker1.Value < Convert.ToDateTime(date))
+            if (string.IsNullOrWhiteSpace(textBox1.Text) || string.IsNullOrWhiteSpace(textBox1.Text))
+                _erroProvider.ErroProvider(textBox1, "Este campo é obrigatório");
 
-            {
-                _erroProvider.ClearError(textBox2);
-                _erroProvider.ClearError(textBox2);
-                _erroProvider.ClearError(dateTimePicker1);
-                _erroProvider.ClearError(comboBox1);
+            if (string.IsNullOrEmpty(textBox2.Text) || string.IsNullOrWhiteSpace(textBox2.Text))
+                _erroProvider.ErroProvider(textBox2, "Este campo é obrigatório");
 
-                return false;
-            }
+            if (string.IsNullOrEmpty(comboBox1.Text))
+                _erroProvider.ErroProvider(comboBox1, "Este campo é obrigatório");
+
+    
+            if (dateTimePicker1.Value >= DateTime.Now.AddYears(-18))
+                _erroProvider.ErroProvider(dateTimePicker1, "O usuário deve ter no mínimo 18 anos");
 
             else
-            {
+                return false;
 
-                _erroProvider.ErroProvider(textBox1, "Campo tem preenchimento obrigatorio");
-                _erroProvider.ErroProvider(textBox2, "Campo tem preenchimento obrigatorio");
-                _erroProvider.ErroProvider(comboBox1, "Este campo é obrigatório");
-                _erroProvider.ErroProvider(dateTimePicker1, "A data deve ser menor que a data atual");
-
-            }
 
             return true;
 
