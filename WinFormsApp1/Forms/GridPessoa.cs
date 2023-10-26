@@ -15,8 +15,6 @@ namespace WinFormsApp1
         private readonly IPessoaService _pessoaService;
 
         private readonly IErroProvider _erroProvider;
-
-
         Pessoa pessoa;
 
       
@@ -26,6 +24,7 @@ namespace WinFormsApp1
             InitializeComponent();
             _pessoaService = pessoaService;
             _erroProvider = erroProvider;
+          
             CarregarDadosFormulario();
             pessoa = new Pessoa();
             WindowState = FormWindowState.Maximized;
@@ -48,6 +47,8 @@ namespace WinFormsApp1
             {
                 var frmEditarPessoa = new FrmEditarPessoa(_pessoaService, _erroProvider);
 
+                if (pessoa.Id is null)
+                    DataGridView_DefaultDate();
                 frmEditarPessoa.CarregarDadosGridPessoa(pessoa);
 
                 frmEditarPessoa.ShowDialog();
@@ -132,8 +133,8 @@ namespace WinFormsApp1
             }
             else if (result == DialogResult.No)
             {
-                Console.WriteLine("Usuário escolheu 'Não'");
-               this.Hide();
+
+                return;
             }
         }
 
@@ -193,6 +194,7 @@ namespace WinFormsApp1
                     pessoa.Data_Nascimento = Convert.ToDateTime(row.Cells["Data de Nacimento"].Value);
                     pessoa.Sexo = Convert.ToString(row.Cells["Sexo"].Value);
                 }
+             
             }
             catch
             {
@@ -200,6 +202,22 @@ namespace WinFormsApp1
             }
 
 
+        }
+
+        private void DataGridView_DefaultDate()
+        {
+            // Obter a primeira linha do DataGridView, se houver alguma
+            if (dataGridView1.Rows.Count > 0)
+            {
+                DataGridViewRow firstRow = dataGridView1.Rows[0];
+
+                pessoa.Id = Convert.ToInt32(firstRow.Cells["Id"].Value);
+                pessoa.Nome = Convert.ToString(firstRow.Cells["Nome"].Value);
+                pessoa.Sobrenome = Convert.ToString(firstRow.Cells["Sobrenome"].Value);
+                pessoa.Data_Nascimento = Convert.ToDateTime(firstRow.Cells["Data de Nacimento"].Value);
+                pessoa.Sexo = Convert.ToString(firstRow.Cells["Sexo"].Value);
+
+            }
         }
 
 

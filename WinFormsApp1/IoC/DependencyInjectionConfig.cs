@@ -25,12 +25,13 @@ namespace WinFormsApp1.IoC
             builder.RegisterType<PessoaService>().As<IPessoaService>();
 
             builder.RegisterType<CreateDatabaseRespository>().As<ICreateDabaseRepository>();
+
             builder.RegisterType<CreateDatabaseService>().As<ICreateDabaseService>();
 
             builder.RegisterType<CreateDatabaseService>();
 
-          
-           
+
+
 
             builder.RegisterType<GridPessoa>().AsSelf();
 

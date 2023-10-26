@@ -1,5 +1,6 @@
 using Autofac;
 using WinForm.Desktop.Services;
+using WinForm.Desktop.Services.Interfaces;
 using WinFormsApp1.IoC;
 
 namespace WinFormsApp1
@@ -26,8 +27,15 @@ namespace WinFormsApp1
             
             using (var scope = container.BeginLifetimeScope())
             {
-                var mainForm = scope.Resolve<GridPessoa>();
-               
+
+                var createDatabaseService = scope.Resolve<ICreateDabaseService>();
+
+                createDatabaseService.CreateDabase();
+
+                var mainForm = scope.Resolve<GridPessoa>(
+                    new TypedParameter(typeof(ICreateDabaseService), createDatabaseService));
+
+
 
                 Application.Run(mainForm);
             }

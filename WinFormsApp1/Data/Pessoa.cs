@@ -11,8 +11,7 @@ namespace WinFormsApp1.Entites
 
         public string? Sobrenome { get;  set; }
 
-        public DateTime Data_Nascimento { get; set; } = DateTime.Now.AddYears(-18);
-
+        public DateTime Data_Nascimento { get; set; }
         public string? Sexo { get; set; }
 
 
